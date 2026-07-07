@@ -20,8 +20,7 @@ Qwen Cloud.
 
 ## Architecture
 
-See [`docs/architecture.md`](docs/architecture.md) for the diagram. Short
-version:
+Short version:
 
 ```
 User ──▶ FastAPI (main.py) ──▶ Orchestrator ──▶ Blackboard ──▶ {Planner, Researcher, Coder, Critic}
