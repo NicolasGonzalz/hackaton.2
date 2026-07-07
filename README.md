@@ -39,34 +39,6 @@ wrapper around the Qwen Cloud OpenAI-compatible endpoint. Run artifacts
 required by the hackathon (record your screen calling this while the backend
 runs on an Alibaba Cloud ECS instance or Function Compute).
 
-## Project layout
-
-```
-agent-society/
-├── backend/
-│   ├── main.py                 FastAPI app (SSE stream of the agents talking)
-│   ├── benchmark.py            Multi-agent vs single-agent comparison
-│   ├── core/
-│   │   ├── qwen_client.py      Qwen Cloud API wrapper
-│   │   ├── blackboard.py       Shared memory + negotiation protocol
-│   │   └── alibaba_storage.py  Alibaba Cloud OSS upload (deployment proof)
-│   └── agents/
-│       ├── base_agent.py
-│       ├── orchestrator.py
-│       ├── planner_agent.py
-│       ├── researcher_agent.py
-│       ├── coder_agent.py
-│       └── critic_agent.py
-├── frontend/index.html         Live "agora" view of the agents debating
-├── docs/architecture.md        Diagram + data flow explanation
-├── Dockerfile
-├── deploy_alibaba.sh            Build/push/deploy helper for Alibaba Cloud
-├── requirements.txt
-├── .env.example
-├── LICENSE
-└── SUBMISSION.md               Ready-to-paste Devpost submission text
-```
-
 ## Setup
 
 1. **Get Qwen Cloud credentials**
@@ -103,10 +75,3 @@ agent-society/
    ```
    Prints a table comparing the Agent Society pipeline against a single
    zero-shot Qwen call across a small task suite.
-
-## Submitting
-
-Use [`SUBMISSION.md`](SUBMISSION.md) as the text description for the Devpost
-form. Don't forget: public repo + LICENSE visible in the About section,
-architecture diagram (`docs/architecture.md`), ~3 min demo video, and the
-separate Alibaba Cloud deployment proof video.
