@@ -48,7 +48,6 @@ runs on an Alibaba Cloud ECS instance or Function Compute).
    ```bash
    cp .env.example .env
    # fill in QWEN_API_KEY, QWEN_BASE_URL, QWEN_MODEL
-   # fill in ALIBABA_ACCESS_KEY_ID / SECRET / OSS_ENDPOINT / OSS_BUCKET
    ```
 
 3. **Install deps**
