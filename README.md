@@ -89,7 +89,12 @@ agent-society/
    ```bash
    uvicorn backend.main:app --reload --port 8080
    ```
-   Open `frontend/index.html` in a browser (or serve it statically) and
+
+   ```bash
+   python -m http.server 3000
+   ```
+
+   Open `http://localhost:3000/frontend/intex.html` in a browser and
    submit a task — you'll see the agents debate it live.
 
 5. **Run the efficiency benchmark**
@@ -98,16 +103,6 @@ agent-society/
    ```
    Prints a table comparing the Agent Society pipeline against a single
    zero-shot Qwen call across a small task suite.
-
-6. **Deploy to Alibaba Cloud**
-   ```bash
-   ./deploy_alibaba.sh
-   ```
-   Builds the Docker image, pushes it to Alibaba Cloud Container Registry,
-   and deploys it (ECS custom container or Function Compute — see script
-   comments for both paths). Record a short screen capture of the deployed
-   endpoint responding + the OSS bucket receiving the run artifact — that's
-   your "Proof of Alibaba Cloud Deployment" video.
 
 ## Submitting
 
