@@ -1,0 +1,167 @@
+:root {
+  --ink: #171d26;
+  --panel: #202834;
+  --parchment: #eae3d3;
+  --line: #3a4353;
+  --gold: #cbb26a;
+  --planner: #e8a33d;
+  --researcher: #2fa6a0;
+  --coder: #8b7fd1;
+  --critic: #d1717c;
+  --orchestrator: #cbb26a;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--parchment);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+}
+header {
+  padding: 2.5rem 2rem 1.5rem;
+  border-bottom: 1px solid var(--line);
+}
+h1 {
+  font-family: 'Fraunces', serif;
+  font-size: 2.1rem;
+  font-weight: 600;
+  margin: 0 0 0.3rem;
+  letter-spacing: -0.01em;
+}
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+main {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 0;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.council {
+  padding: 2rem;
+  border-right: 1px solid var(--line);
+}
+.seats {
+  position: relative;
+  width: 280px;
+  height: 280px;
+  margin: 1rem auto 2rem;
+}
+.table {
+  position: absolute;
+  inset: 60px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: radial-gradient(circle, #232c3a 0%, var(--panel) 100%);
+}
+.seat {
+  position: absolute;
+  width: 78px;
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.seat .dot {
+  width: 14px; height: 14px; border-radius: 50%;
+  margin: 0 auto 6px;
+  box-shadow: 0 0 0 4px rgba(255,255,255,0.03);
+  transition: box-shadow 0.3s ease;
+}
+.seat.active .dot { box-shadow: 0 0 0 6px currentColor, 0 0 18px currentColor; }
+.seat[data-role="planner"]      { top: -8px; left: 100px; color: var(--planner); }
+.seat[data-role="researcher"]   { top: 90px; left: -8px; color: var(--researcher); }
+.seat[data-role="coder"]        { top: 90px; right: -8px; left: auto; color: var(--coder); }
+.seat[data-role="critic"]       { bottom: -8px; left: 100px; color: var(--critic); }
+.seat[data-role="orchestrator"] { top: 118px; left: 101px; color: var(--orchestrator); }
+.seat .dot { background: currentColor; opacity: 0.35; }
+.seat.active .dot { opacity: 1; }
+
+.legend { font-size: 0.78rem; line-height: 1.9; color: #a9b2c3; }
+.legend span { font-family: 'JetBrains Mono', monospace; }
+
+.stage {
+  padding: 2rem;
+}
+.composer {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+}
+textarea {
+  flex: 1;
+  resize: vertical;
+  min-height: 64px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  color: var(--parchment);
+  border-radius: 6px;
+  padding: 0.7rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.92rem;
+}
+button {
+  background: var(--gold);
+  color: var(--ink);
+  border: none;
+  border-radius: 6px;
+  padding: 0 1.4rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
+  font-size: 0.8rem;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+}
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.minutes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  max-height: 62vh;
+  overflow-y: auto;
+  padding-right: 0.4rem;
+}
+.entry {
+  background: var(--panel);
+  border-left: 3px solid var(--line);
+  border-radius: 4px;
+  padding: 0.7rem 0.9rem;
+  font-size: 0.86rem;
+  animation: rise 0.25s ease-out;
+}
+@keyframes rise { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+.entry .who {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.3rem;
+  display: flex;
+  gap: 0.5rem;
+}
+.entry .content { white-space: pre-wrap; color: #d8dde6; }
+.entry.planner { border-color: var(--planner); } .entry.planner .who { color: var(--planner); }
+.entry.researcher { border-color: var(--researcher); } .entry.researcher .who { color: var(--researcher); }
+.entry.coder { border-color: var(--coder); } .entry.coder .who { color: var(--coder); }
+.entry.critic { border-color: var(--critic); } .entry.critic .who { color: var(--critic); }
+.entry.orchestrator, .entry.system { border-color: var(--orchestrator); }
+.entry.orchestrator .who, .entry.system .who { color: var(--orchestrator); }
+
+.final {
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--line);
+  padding-top: 1.2rem;
+}
+.final h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 1.1rem;
+  margin: 0 0 0.6rem;
+}
