@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Agent Society — Qwen Cloud</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="eyebrow">Track 3 — Agent Society — Qwen Cloud</div>
+  <h1>La table des agents</h1>
+</header>
+<main>
+  <aside class="council">
+    <div class="seats">
+      <div class="table"></div>
+      <div class="seat" data-role="planner"><div class="dot"></div>Planner</div>
+      <div class="seat" data-role="researcher"><div class="dot"></div>Researcher</div>
+      <div class="seat" data-role="coder"><div class="dot"></div>Coder</div>
+      <div class="seat" data-role="critic"><div class="dot"></div>Critic</div>
+      <div class="seat" data-role="orchestrator"><div class="dot"></div>Orch.</div>
+    </div>
+    <p class="legend">
+      Chaque point s'allume quand l'agent parle. Le <span>Critic</span> peut
+      rejeter une proposition — elle revient alors à son auteur pour révision.
+      Si le désaccord persiste 2 tours, l'<span>Orchestrator</span> tranche.
+    </p>
+  </aside>
+
+  <section class="stage">
+    <div class="composer">
+      <textarea id="goal" placeholder="Décris la tâche à confier à la société d'agents...">Écris une fonction Python qui valide un numéro de téléphone français et ajoute des tests.</textarea>
+      <button id="send">Lancer</button>
+    </div>
+    <div class="minutes" id="minutes"></div>
+    <div class="final" id="final" style="display:none">
+      <h2>Réponse finale</h2>
+      <div class="entry system"><div class="content" id="finalContent"></div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+  const API_BASE = "http://localhost:8080"; // point at your Alibaba Cloud deployment in production
+
+  const sendBtn = document.getElementById('send');
+  const goalBox = document.getElementById('goal');
+  const minutes = document.getElementById('minutes');
+  const finalBox = document.getElementById('final');
+  const finalContent = document.getElementById('finalContent');
+
+  function pulse(role) {
+    document.querySelectorAll('.seat').forEach(s => s.classList.remove('active'));
+    const seat = document.querySelector(`.seat[data-role="${role}"]`);
+    if (seat) {
+      seat.classList.add('active');
+      setTimeout(() => seat.classList.remove('active'), 900);
+    }
+  }
+
+  function addEntry(actor, action, content) {
+    const div = document.createElement('div');
+    div.className = `entry ${actor}`;
+    div.innerHTML = `<div class="who">${actor} · ${action}</div><div class="content"></div>`;
+    div.querySelector('.content').textContent = content;
+    minutes.appendChild(div);
+    minutes.scrollTop = minutes.scrollHeight;
+  }
+
+  sendBtn.addEventListener('click', async () => {
+    const goal = goalBox.value.trim();
+    if (!goal) return;
+    sendBtn.disabled = true;
+    minutes.innerHTML = '';
+    finalBox.style.display = 'none';
+
+    const resp = await fetch(`${API_BASE}/run`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ goal })
+    });
+
+    const reader = resp.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+
+    while (true) {
+    const { value, done } = await reader.read();
+    if (done) break;
+
+    buffer += decoder.decode(value, { stream: true });
+
+    let lines = buffer.split('\n');
+    buffer = lines.pop();
+
+    for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+
+        const event = JSON.parse(line.replace('data: ', ''));
+
+        pulse(event.actor);
+
+        if (event.action === 'done') {
+        const result = JSON.parse(event.content);
+        finalContent.textContent = result.final_answer;
+        finalBox.style.display = 'block';
+        } else {
+        addEntry(event.actor, event.action, event.content);
+        }
+    }
+    }
+    sendBtn.disabled = false;
+  });
+</script>
+</body>
+</html>
