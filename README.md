@@ -65,7 +65,7 @@ runs on an Alibaba Cloud ECS instance or Function Compute).
    python -m http.server 3000
    ```
 
-   Open `http://localhost:3000/frontend/intex.html` in a browser and
+   Open `http://localhost:3000/frontend/index.html` in a browser and
    submit a task - you'll see the agents debate it live.
 
 5. **Run the efficiency benchmark**
