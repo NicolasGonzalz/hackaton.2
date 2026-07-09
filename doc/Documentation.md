@@ -36,8 +36,8 @@ L'agent assigné (le plus souvent le **Coder**, parfois **Planner** ou
 ## Étape 4 — Le Critic juge la réponse
 
 Le **Critic** relit la proposition et rend un verdict :
-- ✅ **APPROVE** → la réponse est acceptée telle quelle, on passe à la suite.
-- ❌ **REJECT** → il donne une raison précise, et la balle revient à l'agent
+- **APPROVE** → la réponse est acceptée telle quelle, on passe à la suite.
+- **REJECT** → il donne une raison précise, et la balle revient à l'agent
   qui avait proposé, pour qu'il corrige.
 
 ![exemple](critic.png)
